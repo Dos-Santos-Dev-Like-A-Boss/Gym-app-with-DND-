@@ -1,0 +1,16 @@
+.wrapper{
+   flex-grow: 1;
+   padding-left: 20px;
+   background-color: #f5f6f9;
+}
+.daysWrapper{
+   display: flex;
+   justify-content: space-evenly;
+}
+.title{
+   margin: 0;
+   font-weight: 900;
+   margin-top: 20px;
+   margin-bottom: 10px;
+   font-size: 35px;
+}

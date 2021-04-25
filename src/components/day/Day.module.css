@@ -1,0 +1,34 @@
+.wrapper {
+   background-color: #ffffff;
+   width: 160px;
+   height: 500px;
+   display: flex;
+   margin: 4px;
+   border-radius: 15px;
+   flex-direction: column;
+   align-items: center;
+}
+.wrapper hr{
+   width: 90%;
+   background-color: #dbe0f1;
+   
+}
+.inputTitle {
+   width: 70%;
+   border:none;
+   border-bottom: 1.5px dashed #bbbfcc;
+   outline: none;
+   text-align: center;
+   font-weight: 700;
+}
+
+.exercises {
+   display: flex;
+   flex-direction: column;
+   box-sizing: border-box;
+   margin-top: 15px;
+   width: 95%;
+   height: 95%;
+   border: 1px solid black;
+
+}
