@@ -1,13 +1,11 @@
 import { combineReducers } from 'redux';
 // import changeExerciseReducer from './reducers/changeExerciseReducer';
-import exerciseReducer from './reducers/exerciseReducer'
+import exercisesReducer from './reducers/exercisesReducer'
 
 const reducers = combineReducers({
-   data: exerciseReducer
+   data: exercisesReducer,
 })
-export type RootState = ReturnType<typeof reducers>
+export type RootState = ReturnType<typeof reducers>;
 
-export default combineReducers({
-   data: exerciseReducer
-})
+export default reducers;
 

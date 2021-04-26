@@ -1,7 +1,6 @@
 .wrapper {
    background-color: #ffffff;
-   width: 160px;
-   height: 500px;
+   height: 80%;
    display: flex;
    margin: 4px;
    border-radius: 15px;
@@ -29,6 +28,6 @@
    margin-top: 15px;
    width: 95%;
    height: 95%;
-   border: 1px solid black;
+   border: 1px dashed black;
 
 }

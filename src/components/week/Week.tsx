@@ -1,21 +1,31 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styles from './Week.module.css';
-import Day from '../day/Day'
+import Day from '../day/Day';
+import { droppbleIds } from '../../store/reducers/exercisesReducer';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
+
+
 
 const Week = () => {
+
+   const columns = useSelector((state: RootState) => state.data.columns)
+   const spawnDays = useCallback(() => {
+      return droppbleIds.slice(1).map((el, i) => {
+         return (
+            <Day numOfDay={i+1} dayId={el} exercise={columns[el]} />
+         )
+      })
+   }, [columns])
+
    return (
-         <div className={styles.wrapper}>
-            <p className={styles.title}>Week 1</p>
-            <div className={styles.daysWrapper}>
-            <Day numOfDay={1} />
-            <Day numOfDay={2} />
-            <Day numOfDay={3} />
-            <Day numOfDay={4} />
-            <Day numOfDay={5} />
-            <Day numOfDay={6} />
-            <Day numOfDay={7} />
-            </div>
+
+      <div className={styles.wrapper}>
+         <div className={styles.title}> Week 1</div>
+         <div className={styles.daysWrapper}>
+            {spawnDays()}
          </div>
+      </div>
    )
 }
 
