@@ -40,32 +40,44 @@ const initialState: IExercisesReducer  = {
    },
 }
 
-export default function dataReducer(state = initialState, action:IAction) {
-   switch (action.type) {
+export default function dataReducer(state = initialState,{type,payload}:IAction) {
+   switch (type) {
       case ExerciseActions.ADD_NEW_EXERCISE :
          return {
             ...state,
             columns: {
                ...state.columns,
-               [DroppbleIds.DEFAULT]: [...state.columns[DroppbleIds.DEFAULT], action.payload]
+               [DroppbleIds.DEFAULT]: [...state.columns[DroppbleIds.DEFAULT], payload]
             }
          }
-      case ExerciseActions.DROP_ITEM :
+      case ExerciseActions.SHUFFLE_ITEMS :
+         
          return {
             ...state,
             columns: {
                ...state.columns,
-
+               [payload.droppableId]: [...state.columns[payload.droppableId],payload]
+               
             } 
          }
-      case ExerciseActions.COPY_ITEM:
+      case ExerciseActions.COPY_ITEM_AND_DROP :
          return {
             ...state,
             columns: {
                ...state.columns,
+               [payload.destination.droppableId] : [...state.columns[payload.destination.droppableId],
+               payload],
                [DroppbleIds.DEFAULT]: [...state.columns.DroppbleIds.DEFAULT]
             }
          }
+         case ExerciseActions.REMOVE_ITEM_AND_DROP :
+            return {
+               ...state,
+               columns: {
+                  ...state.columns,
+
+               }
+            }
       default : return state
    }
 }

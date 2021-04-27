@@ -29,12 +29,11 @@ const ModalWindow = (props:any) => {
    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       if (exercise.name && exercise.duration) {
-         let randomId = Math.random().toString().slice(-4);
-         setExercise({
+         const newExercise = {
             ...exercise,
-            id: randomId
-         })
-         dispatch(addExercise(exercise))
+            id:Math.random().toString().slice(-4)
+         } 
+         dispatch(addExercise(newExercise))
          setExercise(initialState)
          props.visible()
       } else return
