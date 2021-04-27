@@ -50,13 +50,21 @@ export default function dataReducer(state = initialState,{type,payload}:IAction)
                [DroppbleIds.DEFAULT]: [...state.columns[DroppbleIds.DEFAULT], payload]
             }
          }
-      case ExerciseActions.SHUFFLE_ITEMS :
-         
+      case ExerciseActions.SHUFFLE_ITEMS:
+         let DragId = payload.draggableId
+         let DropId = payload.destination.droppableId
+         let fromIndex = payload.source.index
+         let toIndex = payload.destination.index
+         console.log('Shufle')
+         console.log(state.columns)
+         console.log(DropId)
+         console.log(state.columns[DropId])
          return {
             ...state,
             columns: {
                ...state.columns,
-               [payload.droppableId]: [...state.columns[payload.droppableId],payload]
+               [payload.droppableId]:
+                  [...state.columns[payload.droppableId].splice(toIndex, 1,state.columns[payload.droppableId][toIndex])]
                
             } 
          }

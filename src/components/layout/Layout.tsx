@@ -4,19 +4,21 @@ import Exercises from '../exercises/Exercises';
 import Week from '../week/Week';
 import styles from './Layout.module.css';
 import { DroppbleIds } from '../../store/reducers/exercisesReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
+import { ExerciseActions, shuffleItems } from '../../store/actions/addExercises';
 
 const Layout = () => {
 
+   const dispatch = useDispatch();
+   const state = useSelector((state:RootState) => state.data.columns)
    const handleDragEnd = (e:any) => {
       if(!e.destination || e.source.droppableId === e.destination.droppableId &&
          e.source.index === e.destination.index){ 
             return 
       } else {
          if(e.source.droppableId === e.destination.droppableId){
-            //let obj = {
-            // from : e.draggble id
-            //}
-            //SHUFFLE_ITEMS dispatch(shufleItems())
+            dispatch(shuffleItems(e))
          }
          else if(e.source.droppableId === DroppbleIds.DEFAULT &&
             e.destination.droppableId !== DroppbleIds.DEFAULT ) {
