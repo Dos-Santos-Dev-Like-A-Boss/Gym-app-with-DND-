@@ -5,6 +5,7 @@
    margin: 4px;
    border-radius: 15px;
    flex-direction: column;
+   width: 140px;
    align-items: center;
 }
 .wrapper hr{
@@ -15,19 +16,62 @@
 .inputTitle {
    width: 70%;
    border:none;
-   border-bottom: 1.5px dashed #bbbfcc;
+   font-size: 12px;
+   border: none;
    outline: none;
    text-align: center;
    font-weight: 700;
+}
+
+.inputTitle:placeholder-shown {
+   border-bottom: 1.5px dashed #bbbfcc;
 }
 
 .exercises {
    display: flex;
    flex-direction: column;
    box-sizing: border-box;
-   margin-top: 15px;
+   margin-top: 2px;
    width: 95%;
    height: 95%;
-   border: 1px dashed black;
+   padding: 3px;
+}
+.exercise_duration {
+   margin: 2px 0;
+   font-size: 8px;
+   text-align: right;
+}
 
+.exercise_duration::before {
+   content: "Duration:"
+}
+
+.exercise_duration::after {
+   content: " mins"
+}
+
+.exercise {
+   border-radius: 6px;
+   background-color: #e2e6fa;
+   padding: 3px;
+   box-sizing: border-box;
+}
+
+.exercise {
+   margin-bottom: 5px;
+   position: relative;
+}
+
+.exercise_name {
+   margin: 2px 0;
+   font-size: 12px;
+}
+
+.exercise_remove {
+   position: absolute;
+   right: 7px;
+   top: 5px;
+   font-size: 12px;
+   color: black;
+   cursor: pointer;
 }

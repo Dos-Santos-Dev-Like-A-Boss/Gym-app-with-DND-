@@ -1,13 +1,19 @@
 .wrapper{
-   flex-basis: 75vw;
    padding-left: 40px;
+   display: flex;
+   flex-direction: column;
    padding-right: 80px;
    background-color: #f5f6f9;
+   width: calc(100% - 300px);
 }
 .daysWrapper{
    display: flex;
    justify-content: space-evenly;
-   height: 100%;
+   flex-direction: column;
+   overflow-x: auto;
+   flex-wrap: wrap;
+   width: 100%;
+   height: calc(100vh - 298px);
 }
 .title{
    margin: 0;

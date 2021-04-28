@@ -1,9 +1,13 @@
 .wrapper{
    flex-basis: 20vw;
+   height: 100%;
    background-color: #ebeef8;
    display: flex;
    flex-direction: column;
    align-items: center;
+   overflow-y: auto;
+   min-height: 70vh;
+   width: 200px;
 }
 
 .form{
@@ -53,7 +57,7 @@
 }
 .exercise {
    margin: 3px;
-   height: 30px;
+   padding: 5px;
    text-align: left;
    background-color: #e2e6fa;
    box-sizing: border-box;
@@ -61,10 +65,6 @@
    color: #5d6877;
    text-transform: capitalize;
 }
-.exercise span {
-   line-height: 30px;
-}
-
 .text{
    text-transform: capitalize;
    margin: 0;

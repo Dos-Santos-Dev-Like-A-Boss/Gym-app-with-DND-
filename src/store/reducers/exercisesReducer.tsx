@@ -1,7 +1,7 @@
 import { IAction } from "../actionInterface";
-import { ExerciseActions } from "../actions/addExercises";
+import { ExerciseActions } from "../actions/exercisesActions";
 
-export enum DroppbleIds  {
+export enum DroppableIdType  {
    DEFAULT = 'DEFAULT_EXERCISE',
    MONDAY = 'MONDAY_EXERCISE',
    TUESDAY = 'TUESDAY_EXERCISE',
@@ -13,8 +13,14 @@ export enum DroppbleIds  {
 }
 
 export const droppbleIds = [
-   DroppbleIds.DEFAULT, DroppbleIds.MONDAY, DroppbleIds.TUESDAY, DroppbleIds.WEDNESDAY,
-   DroppbleIds.THURSDAY, DroppbleIds.FRIDAY, DroppbleIds.SATURDAY, DroppbleIds.SUNDAY
+   DroppableIdType.DEFAULT,
+   DroppableIdType.MONDAY,
+   DroppableIdType.TUESDAY,
+   DroppableIdType.WEDNESDAY,
+   DroppableIdType.THURSDAY,
+   DroppableIdType.FRIDAY,
+   DroppableIdType.SATURDAY,
+   DroppableIdType.SUNDAY
 ]
 
 export interface IExercise {
@@ -29,66 +35,90 @@ export interface IExercisesReducer {
 
 const initialState: IExercisesReducer  = {
    columns: {
-      [DroppbleIds.DEFAULT]: [],
-      [DroppbleIds.MONDAY]: [],
-      [DroppbleIds.TUESDAY]: [],
-      [DroppbleIds.WEDNESDAY]: [],
-      [DroppbleIds.THURSDAY]: [],
-      [DroppbleIds.FRIDAY]: [],
-      [DroppbleIds.SATURDAY]: [],
-      [DroppbleIds.SUNDAY]: []
+      [DroppableIdType.DEFAULT]: [],
+      [DroppableIdType.MONDAY]: [],
+      [DroppableIdType.TUESDAY]: [],
+      [DroppableIdType.WEDNESDAY]: [],
+      [DroppableIdType.THURSDAY]: [],
+      [DroppableIdType.FRIDAY]: [],
+      [DroppableIdType.SATURDAY]: [],
+      [DroppableIdType.SUNDAY]: []
    },
 }
 
-export default function dataReducer(state = initialState,{type,payload}:IAction) {
+export default function exercisesReducer(state = initialState, {type, payload}: IAction) {
    switch (type) {
       case ExerciseActions.ADD_NEW_EXERCISE :
          return {
             ...state,
             columns: {
                ...state.columns,
-               [DroppbleIds.DEFAULT]: [...state.columns[DroppbleIds.DEFAULT], payload]
+               [DroppableIdType.DEFAULT]: [...state.columns[DroppableIdType.DEFAULT], payload]
             }
          }
-      case ExerciseActions.SHUFFLE_ITEMS:
-         let dragId = payload.draggableId
-         let dropId = payload.destination.droppableId
-         let fromIndex = payload.source.index
-         let toIndex = payload.destination.index
-         let itemCopy = state.columns[dropId][fromIndex] 
-         let myArr = state.columns[dropId].slice()
-         let item = myArr.splice(fromIndex, 1)[0]
-         myArr.splice(toIndex,0,item)
-         console.log('ARRAY Copy: ',myArr)
-         console.log("ITEM SPLICE :",item)
+      case ExerciseActions.SHUFFLE_ITEMS: {
          
-         // myArr.splice(toIndex,0,item)
-         
-         return {
-            ...state,
-            columns: {
-               ...state.columns,
-               [dropId]: myArr
-            } 
-         }
-      case ExerciseActions.COPY_ITEM_AND_DROP :
-         return {
-            ...state,
-            columns: {
-               ...state.columns,
-               [payload.destination.droppableId] : [...state.columns[payload.destination.droppableId],
-               payload],
-               [DroppbleIds.DEFAULT]: [...state.columns.DroppbleIds.DEFAULT]
-            }
-         }
-         case ExerciseActions.REMOVE_ITEM_AND_DROP :
+         const { index: fromIndex } = payload.source;
+         const { index: toIndex, droppableId: destinationId } = payload.destination;
+         const newArr = state.columns[destinationId].slice()
+         const item = newArr.splice(fromIndex, 1)[0]
+         newArr.splice(toIndex, 0, item)
+
             return {
                ...state,
                columns: {
                   ...state.columns,
-
+                  [destinationId]: newArr
                }
             }
+         }
+      case ExerciseActions.COPY_ITEM_AND_DROP: {
+         
+         const { index: fromIndex, droppableId: sourceId } = payload.source;
+         const { index: toIndex, droppableId: destinationId} = payload.destination;
+
+         const newSourceCopy = state.columns[sourceId].slice();
+         const item = newSourceCopy.splice(fromIndex, 1)[0];
+         state.columns[destinationId].splice(toIndex, 0, item);
+         const newSourceItem = { ...item, id: payload.newId };
+         state.columns[sourceId][fromIndex] = newSourceItem
+         
+         return {
+            ...state,
+            columns: {
+               ...state.columns,
+            }
+         }
+      }
+      case ExerciseActions.REMOVE_ITEM_AND_DROP: {
+         
+         const { index: fromIndex, droppableId: sourceId } = payload.source;
+         const { index: toIndex, droppableId: destinationId } = payload.destination;
+         
+         const item = state.columns[sourceId].splice(fromIndex, 1)[0];
+
+         const newDestinatinArr = state.columns[destinationId];
+         newDestinatinArr.splice(toIndex, 0, item);
+         return {
+            ...state,
+            columns: {
+               ...state.columns,
+               [sourceId]: [...state.columns[sourceId]],
+               [destinationId]: newDestinatinArr
+            }
+         }
+      }
+      case ExerciseActions.DROP_EXERCISE: {
+         const { exerciseId, column } = payload;
+         const newArr = state.columns[column].filter((exercise: IExercise) => exercise.id !== exerciseId);
+         return {
+            ...state,
+            columns: {
+               ...state.columns,
+               [column]: newArr,
+            }
+         }
+      }
       default : return state
    }
 }
