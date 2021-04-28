@@ -18,7 +18,6 @@ const Exercises = () => {
       setVisible(!visible);
    }
 
-   console.log(exerciseList)
    return (
       <> {visible ? <ModalWindow visible={onClickHandler}/> : null}
          <div className={styles.wrapper}>

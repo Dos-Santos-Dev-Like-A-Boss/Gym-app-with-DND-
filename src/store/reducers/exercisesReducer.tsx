@@ -51,21 +51,24 @@ export default function dataReducer(state = initialState,{type,payload}:IAction)
             }
          }
       case ExerciseActions.SHUFFLE_ITEMS:
-         let DragId = payload.draggableId
-         let DropId = payload.destination.droppableId
+         let dragId = payload.draggableId
+         let dropId = payload.destination.droppableId
          let fromIndex = payload.source.index
          let toIndex = payload.destination.index
-         console.log('Shufle')
-         console.log(state.columns)
-         console.log(DropId)
-         console.log(state.columns[DropId])
+         let itemCopy = state.columns[dropId][fromIndex] 
+         let myArr = state.columns[dropId].slice()
+         let item = myArr.splice(fromIndex, 1)[0]
+         myArr.splice(toIndex,0,item)
+         console.log('ARRAY Copy: ',myArr)
+         console.log("ITEM SPLICE :",item)
+         
+         // myArr.splice(toIndex,0,item)
+         
          return {
             ...state,
             columns: {
                ...state.columns,
-               [payload.droppableId]:
-                  [...state.columns[payload.droppableId].splice(toIndex, 1,state.columns[payload.droppableId][toIndex])]
-               
+               [dropId]: myArr
             } 
          }
       case ExerciseActions.COPY_ITEM_AND_DROP :
